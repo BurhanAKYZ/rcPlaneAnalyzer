@@ -4,12 +4,9 @@
 #include <Wire.h>
 #include <TimerOne.h>
 #include <SPI.h>
-#include "ACS712.h"
 #include "RF24.h"
 
 #define LDR_pin A0
-#define Curr_pin1 A3
-#define Curr_pin2 A2
 #define ledPin 3
 
 #define MPU9250_ADDRESS            0x68
@@ -34,8 +31,6 @@ tmElements_t tm;
 
 // Set pins:  CE, IO,CLK
 DS1302RTC RTC(4, 5, 6);
-ACS712 sensor1(ACS712_20A, Curr_pin1);
-ACS712 sensor2(ACS712_20A, Curr_pin2);
 RF24 radio(7, 8);
 
 void setup()
@@ -61,9 +56,6 @@ void setup()
 	I2CwriteByte(MPU9250_ADDRESS, 28, ACC_FULL_SCALE_4_G);
 	I2CwriteByte(MPU9250_ADDRESS, 0x37, 0x02);
 	I2CwriteByte(MAG_ADDRESS, 0x0A, 0x16);
-
-	sensor1.calibrate();
-	sensor2.calibrate();
 
 	blink_led(3, 150);
 	delay(1000);
